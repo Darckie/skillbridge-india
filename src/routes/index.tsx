@@ -1,5 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { useI18n } from "@/lib/i18n";
+import { useWorker } from "@/lib/worker-store";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
@@ -9,6 +11,11 @@ export const Route = createFileRoute("/")({
 function LanguageSelect() {
   const { setLang } = useI18n();
   const navigate = useNavigate();
+  const { loading, isLoggedIn } = useWorker();
+
+  useEffect(() => {
+    if (!loading && isLoggedIn) navigate({ to: "/worker/home" });
+  }, [loading, isLoggedIn, navigate]);
 
   const pick = (lang: "hi" | "en") => {
     setLang(lang);

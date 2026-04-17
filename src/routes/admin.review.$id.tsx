@@ -145,7 +145,7 @@ function AdminReviewDetail() {
           .eq("id", data.worker_id)
           .is("passport_slug", null);
       }
-      const { error } = await supabase.from("assessments").update(update).eq("id", data.id);
+      const { error } = await supabase.from("assessments").update(update as never).eq("id", data.id);
       if (error) throw error;
       navigate({ to: "/admin/review" });
     } catch (e) {
