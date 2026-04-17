@@ -14,16 +14,185 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessments: {
+        Row: {
+          ai_score_json: Json | null
+          capabilities_json: Json
+          created_at: string
+          human_score_json: Json | null
+          id: string
+          level: number | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          reviewer_mode: Database["public"]["Enums"]["reviewer_mode"]
+          reviewer_notes: string | null
+          status: Database["public"]["Enums"]["assessment_status"]
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at: string
+          video_path: string | null
+          video_url: string | null
+          worker_id: string
+        }
+        Insert: {
+          ai_score_json?: Json | null
+          capabilities_json?: Json
+          created_at?: string
+          human_score_json?: Json | null
+          id?: string
+          level?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_mode?: Database["public"]["Enums"]["reviewer_mode"]
+          reviewer_notes?: string | null
+          status?: Database["public"]["Enums"]["assessment_status"]
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          video_path?: string | null
+          video_url?: string | null
+          worker_id: string
+        }
+        Update: {
+          ai_score_json?: Json | null
+          capabilities_json?: Json
+          created_at?: string
+          human_score_json?: Json | null
+          id?: string
+          level?: number | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          reviewer_mode?: Database["public"]["Enums"]["reviewer_mode"]
+          reviewer_notes?: string | null
+          status?: Database["public"]["Enums"]["assessment_status"]
+          trade?: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          video_path?: string | null
+          video_url?: string | null
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessments_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "workers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      worker_profiles: {
+        Row: {
+          city: string
+          created_at: string
+          daily_wage: number
+          experience_years: number
+          id: string
+          name: string
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          daily_wage?: number
+          experience_years?: number
+          id?: string
+          name: string
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          daily_wage?: number
+          experience_years?: number
+          id?: string
+          name?: string
+          trade?: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "worker_profiles_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: true
+            referencedRelation: "workers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workers: {
+        Row: {
+          auth_user_id: string
+          created_at: string
+          id: string
+          language: Database["public"]["Enums"]["lang_type"]
+          passport_slug: string | null
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          auth_user_id: string
+          created_at?: string
+          id?: string
+          language?: Database["public"]["Enums"]["lang_type"]
+          passport_slug?: string | null
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          auth_user_id?: string
+          created_at?: string
+          id?: string
+          language?: Database["public"]["Enums"]["lang_type"]
+          passport_slug?: string | null
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "reviewer" | "user"
+      assessment_status: "pending_review" | "verified" | "needs_rerecord"
+      lang_type: "hi" | "en"
+      reviewer_mode: "human_only" | "ai_only" | "human_and_ai"
+      trade_type: "electrician" | "plumber" | "welder" | "carpenter" | "ac_tech"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +319,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "reviewer", "user"],
+      assessment_status: ["pending_review", "verified", "needs_rerecord"],
+      lang_type: ["hi", "en"],
+      reviewer_mode: ["human_only", "ai_only", "human_and_ai"],
+      trade_type: ["electrician", "plumber", "welder", "carpenter", "ac_tech"],
+    },
   },
 } as const
