@@ -1,19 +1,27 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState, useRef, useEffect } from "react";
-import { useT } from "@/lib/i18n";
-import { useWorker } from "@/lib/worker-store";
+import { z } from "zod";
+import { useT, useI18n } from "@/lib/i18n";
+import { verifyMockOtp } from "@/lib/auth";
 import { motion } from "framer-motion";
+
+const searchSchema = z.object({
+  phone: z.string().min(10).max(10),
+});
 
 export const Route = createFileRoute("/otp")({
   component: OtpPage,
+  validateSearch: searchSchema,
 });
 
 function OtpPage() {
   const t = useT();
+  const { lang } = useI18n();
   const navigate = useNavigate();
-  const { profile, setLoggedIn } = useWorker();
+  const { phone } = Route.useSearch();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   useEffect(() => {
@@ -26,10 +34,7 @@ function OtpPage() {
     newOtp[index] = value.slice(-1);
     setOtp(newOtp);
     setError("");
-
-    if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus();
-    }
+    if (value && index < 5) inputRefs.current[index + 1]?.focus();
   };
 
   const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
@@ -38,27 +43,30 @@ function OtpPage() {
     }
   };
 
-  const handleVerify = () => {
+  const handleVerify = async () => {
     const code = otp.join("");
     if (code.length !== 6) return;
-    // Mock OTP: any 6-digit code works
-    setLoggedIn(true);
-    navigate({ to: "/profile" });
+    setLoading(true);
+    setError("");
+    try {
+      await verifyMockOtp(phone, code, lang);
+      navigate({ to: "/worker/home" });
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : t("otp_invalid"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const code = otp.join("");
 
   return (
     <div className="kp-screen items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="kp-container"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="kp-container">
         <div className="kp-card">
           <h1 className="text-xl font-bold">{t("otp_title")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            {t("otp_sent_to")} <span className="font-semibold text-foreground">+91 {profile.phone}</span>
+            {t("otp_sent_to")} <span className="font-semibold text-foreground">+91 {phone}</span>
           </p>
 
           <div className="mt-6 flex justify-center gap-2">
@@ -85,15 +93,13 @@ function OtpPage() {
 
           <button
             onClick={handleVerify}
-            disabled={code.length !== 6}
+            disabled={code.length !== 6 || loading}
             className="kp-btn kp-btn-primary mt-6 disabled:opacity-40"
           >
-            {t("verify")}
+            {loading ? t("loading") : t("verify")}
           </button>
 
-          <button className="kp-btn kp-btn-outline mt-2 text-sm">
-            {t("resend_otp")}
-          </button>
+          <button className="kp-btn kp-btn-outline mt-2 text-sm">{t("resend_otp")}</button>
         </div>
       </motion.div>
     </div>
