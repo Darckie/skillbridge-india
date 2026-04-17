@@ -17,6 +17,8 @@ import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerHomeRouteImport } from './routes/worker.home'
 import { Route as PassportSlugRouteImport } from './routes/passport.$slug'
+import { Route as AdminReviewRouteImport } from './routes/admin.review'
+import { Route as AdminReviewIdRouteImport } from './routes/admin.review.$id'
 
 const StatusRoute = StatusRouteImport.update({
   id: '/status',
@@ -58,6 +60,16 @@ const PassportSlugRoute = PassportSlugRouteImport.update({
   path: '/passport/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminReviewRoute = AdminReviewRouteImport.update({
+  id: '/admin/review',
+  path: '/admin/review',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminReviewIdRoute = AdminReviewIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => AdminReviewRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,8 +78,10 @@ export interface FileRoutesByFullPath {
   '/otp': typeof OtpRoute
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
+  '/admin/review': typeof AdminReviewRouteWithChildren
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -76,8 +90,10 @@ export interface FileRoutesByTo {
   '/otp': typeof OtpRoute
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
+  '/admin/review': typeof AdminReviewRouteWithChildren
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -87,8 +103,10 @@ export interface FileRoutesById {
   '/otp': typeof OtpRoute
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
+  '/admin/review': typeof AdminReviewRouteWithChildren
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
+  '/admin/review/$id': typeof AdminReviewIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -99,8 +117,10 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/status'
+    | '/admin/review'
     | '/passport/$slug'
     | '/worker/home'
+    | '/admin/review/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -109,8 +129,10 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/status'
+    | '/admin/review'
     | '/passport/$slug'
     | '/worker/home'
+    | '/admin/review/$id'
   id:
     | '__root__'
     | '/'
@@ -119,8 +141,10 @@ export interface FileRouteTypes {
     | '/otp'
     | '/profile'
     | '/status'
+    | '/admin/review'
     | '/passport/$slug'
     | '/worker/home'
+    | '/admin/review/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -130,6 +154,7 @@ export interface RootRouteChildren {
   OtpRoute: typeof OtpRoute
   ProfileRoute: typeof ProfileRoute
   StatusRoute: typeof StatusRoute
+  AdminReviewRoute: typeof AdminReviewRouteWithChildren
   PassportSlugRoute: typeof PassportSlugRoute
   WorkerHomeRoute: typeof WorkerHomeRoute
 }
@@ -192,8 +217,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassportSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/review': {
+      id: '/admin/review'
+      path: '/admin/review'
+      fullPath: '/admin/review'
+      preLoaderRoute: typeof AdminReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/review/$id': {
+      id: '/admin/review/$id'
+      path: '/$id'
+      fullPath: '/admin/review/$id'
+      preLoaderRoute: typeof AdminReviewIdRouteImport
+      parentRoute: typeof AdminReviewRoute
+    }
   }
 }
+
+interface AdminReviewRouteChildren {
+  AdminReviewIdRoute: typeof AdminReviewIdRoute
+}
+
+const AdminReviewRouteChildren: AdminReviewRouteChildren = {
+  AdminReviewIdRoute: AdminReviewIdRoute,
+}
+
+const AdminReviewRouteWithChildren = AdminReviewRoute._addFileChildren(
+  AdminReviewRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -202,6 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   OtpRoute: OtpRoute,
   ProfileRoute: ProfileRoute,
   StatusRoute: StatusRoute,
+  AdminReviewRoute: AdminReviewRouteWithChildren,
   PassportSlugRoute: PassportSlugRoute,
   WorkerHomeRoute: WorkerHomeRoute,
 }
