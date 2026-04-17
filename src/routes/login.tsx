@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useT } from "@/lib/i18n";
-import { useWorker } from "@/lib/worker-store";
+import { sendMockOtp } from "@/lib/auth";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/login")({
@@ -11,27 +11,31 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const t = useT();
   const navigate = useNavigate();
-  const { updateProfile } = useWorker();
   const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const clean = phone.replace(/\D/g, "");
     if (clean.length !== 10) {
       setError(t("phone_placeholder"));
       return;
     }
-    updateProfile({ phone: clean });
-    navigate({ to: "/otp" });
+    setLoading(true);
+    try {
+      await sendMockOtp(clean);
+      // Pass phone via search param so OTP page knows which number to verify
+      navigate({ to: "/otp", search: { phone: clean } });
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="kp-screen items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="kp-container"
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="kp-container">
         <div className="kp-card">
           <div className="mb-1 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-primary">
@@ -66,10 +70,10 @@ function LoginPage() {
 
           <button
             onClick={handleSubmit}
-            disabled={phone.replace(/\D/g, "").length !== 10}
+            disabled={phone.replace(/\D/g, "").length !== 10 || loading}
             className="kp-btn kp-btn-primary mt-6 disabled:opacity-40"
           >
-            {t("send_otp")}
+            {loading ? t("loading") : t("send_otp")}
           </button>
         </div>
       </motion.div>

@@ -15,6 +15,7 @@ import { Route as OtpRouteImport } from './routes/otp'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WorkerHomeRouteImport } from './routes/worker.home'
 import { Route as PassportSlugRouteImport } from './routes/passport.$slug'
 
 const StatusRoute = StatusRouteImport.update({
@@ -47,6 +48,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WorkerHomeRoute = WorkerHomeRouteImport.update({
+  id: '/worker/home',
+  path: '/worker/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PassportSlugRoute = PassportSlugRouteImport.update({
   id: '/passport/$slug',
   path: '/passport/$slug',
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/passport/$slug': typeof PassportSlugRoute
+  '/worker/home': typeof WorkerHomeRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/passport/$slug': typeof PassportSlugRoute
+  '/worker/home': typeof WorkerHomeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/passport/$slug': typeof PassportSlugRoute
+  '/worker/home': typeof WorkerHomeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/passport/$slug'
+    | '/worker/home'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/passport/$slug'
+    | '/worker/home'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/passport/$slug'
+    | '/worker/home'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   StatusRoute: typeof StatusRoute
   PassportSlugRoute: typeof PassportSlugRoute
+  WorkerHomeRoute: typeof WorkerHomeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/worker/home': {
+      id: '/worker/home'
+      path: '/worker/home'
+      fullPath: '/worker/home'
+      preLoaderRoute: typeof WorkerHomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/passport/$slug': {
       id: '/passport/$slug'
       path: '/passport/$slug'
@@ -183,7 +203,17 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   StatusRoute: StatusRoute,
   PassportSlugRoute: PassportSlugRoute,
+  WorkerHomeRoute: WorkerHomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}

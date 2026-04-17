@@ -59,7 +59,7 @@ export async function runAiAssessment(assessmentId: string): Promise<AiEvalResul
 
   await supabase
     .from("assessments")
-    .update({ ai_score_json: rubric as unknown as Record<string, unknown> })
+    .update({ ai_score_json: rubric as never })
     .eq("id", assessmentId);
 
   return { rubric, level, capabilities };
