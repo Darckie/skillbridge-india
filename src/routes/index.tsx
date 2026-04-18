@@ -30,16 +30,19 @@ function LanguageSelect() {
         transition={{ duration: 0.5 }}
         className="kp-container text-center"
       >
-        {/* Logo */}
-        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-primary">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-primary-foreground">
+        {/* Logo with gradient */}
+        <div
+          className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl shadow-[var(--shadow-elevated)]"
+          style={{ background: "var(--gradient-navy)" }}
+        >
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="text-white">
             <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
 
-        <h1 className="text-2xl font-extrabold text-foreground">KaamProof</h1>
+        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">KaamProof</h1>
 
-        <p className="mt-2 text-lg text-muted-foreground leading-snug">
+        <p className="mt-2 text-lg text-foreground/80 leading-snug font-medium">
           अपनी भाषा चुनें
         </p>
         <p className="text-sm text-muted-foreground">
@@ -49,7 +52,7 @@ function LanguageSelect() {
         <div className="mt-10 space-y-3">
           <button
             onClick={() => pick("hi")}
-            className="kp-btn kp-btn-primary text-lg"
+            className="kp-btn kp-btn-primary text-lg shadow-[0_8px_24px_oklch(0.68_0.16_55_/_0.25)]"
           >
             हिन्दी (अनुशंसित)
           </button>
