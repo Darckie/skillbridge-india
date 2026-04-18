@@ -47,46 +47,67 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
-  --font-display: "Inter", system-ui, -apple-system, sans-serif;
-  --font-body: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Sora", "Inter", system-ui, -apple-system, sans-serif;
+  --font-body: "Sora", "Inter", system-ui, -apple-system, sans-serif;
+  --color-saffron: var(--saffron);
+  --color-saffron-light: var(--saffron-light);
+  --color-navy: var(--navy);
+  --color-navy-mid: var(--navy-mid);
+  --color-navy-light: var(--navy-light);
+  --color-navy-badge: var(--navy-badge);
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: oklch(0.97 0.003 260);
-  --foreground: oklch(0.15 0.02 260);
+  --radius: 0.875rem;
+
+  /* Brand palette — Saffron primary + Navy trust */
+  --saffron: oklch(0.68 0.16 55);          /* #E8761A */
+  --saffron-light: oklch(0.96 0.03 60);    /* #FDF0E6 */
+  --navy: oklch(0.36 0.09 255);            /* #1B3F6E */
+  --navy-mid: oklch(0.55 0.18 260);        /* #2563EB */
+  --navy-light: oklch(0.95 0.025 255);     /* #EBF1FA */
+  --navy-badge: oklch(0.92 0.04 255);      /* #DBEAFE */
+
+  --background: oklch(0.985 0.005 80);     /* #FAFAF8 warm off-white */
+  --foreground: oklch(0.18 0.02 280);      /* ink */
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 260);
+  --card-foreground: oklch(0.18 0.02 280);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 260);
-  --primary: oklch(0.42 0.18 260);
+  --popover-foreground: oklch(0.18 0.02 280);
+
+  --primary: oklch(0.68 0.16 55);          /* saffron */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.94 0.02 260);
-  --secondary-foreground: oklch(0.3 0.06 260);
-  --muted: oklch(0.94 0.01 260);
-  --muted-foreground: oklch(0.5 0.03 260);
-  --accent: oklch(0.94 0.02 260);
-  --accent-foreground: oklch(0.3 0.06 260);
+  --secondary: oklch(0.96 0.025 60);       /* saffron-light */
+  --secondary-foreground: oklch(0.36 0.09 255);
+  --muted: oklch(0.95 0.005 80);
+  --muted-foreground: oklch(0.5 0.02 280);
+  --accent: oklch(0.95 0.025 255);         /* navy-light */
+  --accent-foreground: oklch(0.36 0.09 255);
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(1 0 0);
-  --success: oklch(0.55 0.18 150);
+  --success: oklch(0.36 0.09 255);         /* trust = navy */
   --success-foreground: oklch(1 0 0);
-  --border: oklch(0.91 0.01 260);
-  --input: oklch(0.91 0.01 260);
-  --ring: oklch(0.42 0.18 260);
-  --chart-1: oklch(0.42 0.18 260);
-  --chart-2: oklch(0.55 0.18 150);
-  --chart-3: oklch(0.65 0.15 50);
+  --border: oklch(0.92 0.005 280);
+  --input: oklch(0.92 0.005 280);
+  --ring: oklch(0.68 0.16 55);
+  --chart-1: oklch(0.68 0.16 55);
+  --chart-2: oklch(0.36 0.09 255);
+  --chart-3: oklch(0.55 0.18 260);
   --chart-4: oklch(0.6 0.2 300);
   --chart-5: oklch(0.7 0.15 80);
   --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.15 0.02 260);
-  --sidebar-primary: oklch(0.42 0.18 260);
+  --sidebar-foreground: oklch(0.18 0.02 280);
+  --sidebar-primary: oklch(0.68 0.16 55);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.94 0.02 260);
-  --sidebar-accent-foreground: oklch(0.3 0.06 260);
-  --sidebar-border: oklch(0.91 0.01 260);
-  --sidebar-ring: oklch(0.42 0.18 260);
+  --sidebar-accent: oklch(0.95 0.025 255);
+  --sidebar-accent-foreground: oklch(0.36 0.09 255);
+  --sidebar-border: oklch(0.92 0.005 280);
+  --sidebar-ring: oklch(0.68 0.16 55);
+
+  --gradient-navy: linear-gradient(135deg, oklch(0.36 0.09 255) 0%, oklch(0.55 0.18 260) 100%);
+  --gradient-saffron: linear-gradient(135deg, oklch(0.96 0.03 60) 0%, oklch(0.93 0.05 55) 100%);
+  --shadow-card: 0 1px 3px oklch(0 0 0 / 0.04), 0 4px 16px oklch(0 0 0 / 0.06);
+  --shadow-elevated: 0 4px 12px oklch(0.36 0.09 255 / 0.12), 0 16px 40px oklch(0 0 0 / 0.08);
 }
 
 @layer base {
@@ -130,9 +151,10 @@
 
   .kp-card {
     background-color: var(--color-card);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-2xl);
     padding: 1.5rem;
-    box-shadow: 0 1px 3px oklch(0 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.06);
+    box-shadow: var(--shadow-card);
+    border: 1px solid var(--color-border);
   }
 
   .kp-btn {
