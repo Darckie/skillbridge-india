@@ -55,6 +55,9 @@
   --color-navy-mid: var(--navy-mid);
   --color-navy-light: var(--navy-light);
   --color-navy-badge: var(--navy-badge);
+  --color-verified: var(--verified);
+  --color-verified-light: var(--verified-light);
+  --color-verified-mid: var(--verified-mid);
 }
 
 :root {
@@ -67,6 +70,11 @@
   --navy-mid: oklch(0.55 0.18 260);        /* #2563EB */
   --navy-light: oklch(0.95 0.025 255);     /* #EBF1FA */
   --navy-badge: oklch(0.92 0.04 255);      /* #DBEAFE */
+
+  /* Verified / trust = green (matches reference screenshots) */
+  --verified: oklch(0.58 0.17 145);        /* #16A34A */
+  --verified-mid: oklch(0.52 0.18 150);    /* #15803D */
+  --verified-light: oklch(0.95 0.05 150);  /* #DCFCE7 */
 
   --background: oklch(0.985 0.005 80);     /* #FAFAF8 warm off-white */
   --foreground: oklch(0.18 0.02 280);      /* ink */
@@ -106,6 +114,7 @@
 
   --gradient-navy: linear-gradient(135deg, oklch(0.36 0.09 255) 0%, oklch(0.55 0.18 260) 100%);
   --gradient-saffron: linear-gradient(135deg, oklch(0.96 0.03 60) 0%, oklch(0.93 0.05 55) 100%);
+  --gradient-verified: linear-gradient(140deg, oklch(0.58 0.17 145) 0%, oklch(0.5 0.18 150) 100%);
   --shadow-card: 0 1px 3px oklch(0 0 0 / 0.04), 0 4px 16px oklch(0 0 0 / 0.06);
   --shadow-elevated: 0 4px 12px oklch(0.36 0.09 255 / 0.12), 0 16px 40px oklch(0 0 0 / 0.08);
 }
@@ -165,7 +174,7 @@
     height: 3rem;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-    border-radius: var(--radius-lg);
+    border-radius: 0.625rem;
     font-size: 1rem;
     font-weight: 600;
     transition: all 150ms ease;
