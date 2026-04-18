@@ -84,11 +84,7 @@ function PassportPage() {
 
   const tradeLabel = data ? t(`trade_${data.trade}`) : "";
   const levelLabel = data?.level ? t(`level_${data.level}`) : "";
-
-  const validUntil = data?.reviewed_at
-    ? new Date(new Date(data.reviewed_at).setFullYear(new Date(data.reviewed_at).getFullYear() + 2))
-        .toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })
-    : null;
+  const worker_id_short = `KP-${slug.replace(/^kp-/, "").toUpperCase().slice(0, 8)}`;
 
   const shareOnWhatsApp = () => {
     if (!data) return;
@@ -132,75 +128,74 @@ function PassportPage() {
         transition={{ duration: 0.4 }}
         className="kp-container"
       >
-        <div className="overflow-hidden rounded-3xl bg-card shadow-[var(--shadow-elevated)]">
-          {/* Navy gradient header */}
+        <div className="overflow-hidden rounded-2xl bg-card shadow-[var(--shadow-elevated)]">
+          {/* Verified green gradient header */}
           <div
             className="relative px-6 pt-6 pb-7 text-white"
-            style={{ background: "var(--gradient-navy)" }}
+            style={{ background: "var(--gradient-verified)" }}
           >
-            {/* decorative circles */}
             <div className="absolute -top-12 -right-12 h-40 w-40 rounded-full bg-white/10" />
             <div className="absolute -bottom-16 -left-10 h-36 w-36 rounded-full bg-white/5" />
 
-            {/* Brand row */}
             <div className="relative flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/20 backdrop-blur">
                   <ShieldCheckIcon color="white" size={16} />
                 </div>
-                <span className="text-sm font-bold tracking-wide">KaamProof</span>
+                <span className="text-sm font-extrabold tracking-wide">KaamProof</span>
               </div>
-              <span className="rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-bold backdrop-blur">
-                ✓ Verified
+              <span className="rounded-md bg-white/20 px-2.5 py-1 text-[11px] font-extrabold tracking-wide backdrop-blur">
+                ✓ VERIFIED
               </span>
             </div>
 
-            {/* Avatar + name */}
-            <div className="relative mt-5 flex items-center gap-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white text-2xl font-extrabold text-[var(--color-navy)] shadow-lg">
+            <div className="relative mt-6">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-white/40 bg-white/10 text-2xl font-extrabold text-white backdrop-blur">
                 {data.name.charAt(0).toUpperCase()}
               </div>
-              <div className="min-w-0">
-                <h1 className="truncate text-2xl font-extrabold leading-tight">{data.name}</h1>
-                <p suppressHydrationWarning className="mt-0.5 text-sm text-white/85">
-                  {tradeLabel} · {data.city}
-                </p>
-              </div>
+              <h1 className="mt-4 text-[28px] font-extrabold leading-tight tracking-tight">
+                {data.name}
+              </h1>
+              <p suppressHydrationWarning className="mt-1 text-[14px] text-white/85">
+                {tradeLabel} · {data.city} · {data.experience_years} years exp.
+              </p>
             </div>
 
-            {/* Level strip */}
             <div className="relative mt-5 flex items-center justify-between rounded-xl bg-white/15 px-4 py-3 backdrop-blur">
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/80">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-white/80">
                   {t("skill_level")}
                 </p>
-                <p className="mt-0.5 text-lg font-extrabold">{levelLabel || "—"}</p>
+                <p className="mt-0.5 text-xl font-extrabold">{levelLabel || "—"}</p>
               </div>
-              <div className="flex gap-1">
+              <div className="flex items-end gap-1">
                 {[1, 2, 3].map((n) => (
                   <div
                     key={n}
-                    className={`h-7 w-2.5 rounded-full ${
+                    className={`w-2.5 rounded-sm ${
                       data.level && n <= data.level ? "bg-white" : "bg-white/25"
                     }`}
+                    style={{ height: `${10 + n * 6}px` }}
                   />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Body */}
           <div className="px-6 py-6">
             {data.capabilities.length > 0 && (
               <div>
-                <p suppressHydrationWarning className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("capabilities")}
+                <p
+                  suppressHydrationWarning
+                  className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground/80"
+                >
+                  Verified {t("capabilities")}
                 </p>
-                <div className="mt-2 flex flex-wrap gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
                   {data.capabilities.map((cap) => (
                     <span
                       key={cap}
-                      className="rounded-full bg-[var(--color-navy-light)] px-3 py-1 text-xs font-semibold text-[var(--color-navy)]"
+                      className="rounded-full border border-[var(--color-verified)]/20 bg-[var(--color-verified-light)] px-3 py-1.5 text-[12.5px] font-semibold text-[var(--color-verified-mid)]"
                     >
                       {cap}
                     </span>
@@ -210,25 +205,25 @@ function PassportPage() {
             )}
 
             <div className="mt-5 grid grid-cols-2 gap-3">
-              <StatBox label={t("experience")} value={`${data.experience_years} yr`} />
-              <StatBox label={t("daily_wage")} value={`₹${data.daily_wage}`} />
+              <StatBox label={t("experience")} value={`${data.experience_years} yrs`} />
+              <StatBox label="Expected Wage" value={`₹${data.daily_wage}/day`} />
             </div>
 
             <div className="my-6 h-px w-full bg-border" />
 
             <div className="flex flex-col items-center">
-              <div className="rounded-2xl border-2 border-[var(--color-navy-light)] bg-card p-3">
+              <div className="rounded-xl border-2 border-border bg-card p-3">
                 <QRCodeSVG value={passportUrl || "https://kaamproof.app"} size={140} />
               </div>
-              <p suppressHydrationWarning className="mt-3 text-xs font-semibold text-[var(--color-navy)]">
-                {t("verified_by")}
+              <p className="mt-3 text-[12.5px] font-medium text-muted-foreground">
+                Scan to verify this passport
               </p>
-              {validUntil && (
-                <p className="mt-1 text-[11px] text-muted-foreground">Valid until {validUntil}</p>
-              )}
+              <p className="mt-0.5 text-[12px] font-semibold tracking-[0.08em] text-foreground">
+                {worker_id_short}
+              </p>
             </div>
 
-            <div className="mt-6 space-y-2">
+            <div className="mt-6 space-y-2.5">
               <button
                 onClick={shareOnWhatsApp}
                 className="kp-btn"
@@ -245,14 +240,19 @@ function PassportPage() {
           </div>
         </div>
 
-        {/* Verified strip below card */}
-        <div className="mt-4 flex items-center gap-3 rounded-2xl border border-[var(--color-navy-light)] bg-[var(--color-navy-light)]/50 px-4 py-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[var(--color-navy)]">
+        <div className="mt-4 flex items-center gap-3 rounded-xl border border-[var(--color-verified)]/20 bg-[var(--color-verified-light)]/60 px-4 py-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--color-verified)]">
             <ShieldCheckIcon color="white" size={18} />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-bold text-[var(--color-navy)]">KaamProof द्वारा Verified</p>
-            <p className="text-[11px] text-muted-foreground">Tamper-proof · Employer-verified · Shareable</p>
+            <p className="text-[13.5px] font-extrabold text-[var(--color-verified-mid)]">
+              KaamProof द्वारा Verified
+            </p>
+            <p className="text-[11.5px] text-muted-foreground">
+              {data.reviewed_at
+                ? `Issued on ${new Date(data.reviewed_at).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })} · Valid for 2 years`
+                : "Tamper-proof · Employer-verified · Shareable"}
+            </p>
           </div>
         </div>
       </motion.div>
@@ -262,11 +262,11 @@ function PassportPage() {
 
 function StatBox({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border bg-muted/40 px-4 py-3 text-center">
-      <p suppressHydrationWarning className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+    <div className="rounded-xl bg-muted/60 px-4 py-4 text-center">
+      <p className="text-[20px] font-extrabold text-foreground">{value}</p>
+      <p suppressHydrationWarning className="mt-0.5 text-[12px] text-muted-foreground">
         {label}
       </p>
-      <p className="mt-1 text-lg font-extrabold text-[var(--color-navy)]">{value}</p>
     </div>
   );
 }
