@@ -17,6 +17,11 @@ import { Route as AssessmentRouteImport } from './routes/assessment'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as WorkerHomeRouteImport } from './routes/worker.home'
 import { Route as PassportSlugRouteImport } from './routes/passport.$slug'
+import { Route as EmployerSearchRouteImport } from './routes/employer.search'
+import { Route as EmployerProfileRouteImport } from './routes/employer.profile'
+import { Route as EmployerOtpRouteImport } from './routes/employer.otp'
+import { Route as EmployerLoginRouteImport } from './routes/employer.login'
+import { Route as EmployerHomeRouteImport } from './routes/employer.home'
 import { Route as AdminReviewRouteImport } from './routes/admin.review'
 import { Route as AdminReviewIdRouteImport } from './routes/admin.review.$id'
 
@@ -60,6 +65,31 @@ const PassportSlugRoute = PassportSlugRouteImport.update({
   path: '/passport/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EmployerSearchRoute = EmployerSearchRouteImport.update({
+  id: '/employer/search',
+  path: '/employer/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployerProfileRoute = EmployerProfileRouteImport.update({
+  id: '/employer/profile',
+  path: '/employer/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployerOtpRoute = EmployerOtpRouteImport.update({
+  id: '/employer/otp',
+  path: '/employer/otp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployerLoginRoute = EmployerLoginRouteImport.update({
+  id: '/employer/login',
+  path: '/employer/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmployerHomeRoute = EmployerHomeRouteImport.update({
+  id: '/employer/home',
+  path: '/employer/home',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminReviewRoute = AdminReviewRouteImport.update({
   id: '/admin/review',
   path: '/admin/review',
@@ -79,6 +109,11 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/admin/review': typeof AdminReviewRouteWithChildren
+  '/employer/home': typeof EmployerHomeRoute
+  '/employer/login': typeof EmployerLoginRoute
+  '/employer/otp': typeof EmployerOtpRoute
+  '/employer/profile': typeof EmployerProfileRoute
+  '/employer/search': typeof EmployerSearchRoute
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
   '/admin/review/$id': typeof AdminReviewIdRoute
@@ -91,6 +126,11 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/admin/review': typeof AdminReviewRouteWithChildren
+  '/employer/home': typeof EmployerHomeRoute
+  '/employer/login': typeof EmployerLoginRoute
+  '/employer/otp': typeof EmployerOtpRoute
+  '/employer/profile': typeof EmployerProfileRoute
+  '/employer/search': typeof EmployerSearchRoute
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
   '/admin/review/$id': typeof AdminReviewIdRoute
@@ -104,6 +144,11 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/status': typeof StatusRoute
   '/admin/review': typeof AdminReviewRouteWithChildren
+  '/employer/home': typeof EmployerHomeRoute
+  '/employer/login': typeof EmployerLoginRoute
+  '/employer/otp': typeof EmployerOtpRoute
+  '/employer/profile': typeof EmployerProfileRoute
+  '/employer/search': typeof EmployerSearchRoute
   '/passport/$slug': typeof PassportSlugRoute
   '/worker/home': typeof WorkerHomeRoute
   '/admin/review/$id': typeof AdminReviewIdRoute
@@ -118,6 +163,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/admin/review'
+    | '/employer/home'
+    | '/employer/login'
+    | '/employer/otp'
+    | '/employer/profile'
+    | '/employer/search'
     | '/passport/$slug'
     | '/worker/home'
     | '/admin/review/$id'
@@ -130,6 +180,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/admin/review'
+    | '/employer/home'
+    | '/employer/login'
+    | '/employer/otp'
+    | '/employer/profile'
+    | '/employer/search'
     | '/passport/$slug'
     | '/worker/home'
     | '/admin/review/$id'
@@ -142,6 +197,11 @@ export interface FileRouteTypes {
     | '/profile'
     | '/status'
     | '/admin/review'
+    | '/employer/home'
+    | '/employer/login'
+    | '/employer/otp'
+    | '/employer/profile'
+    | '/employer/search'
     | '/passport/$slug'
     | '/worker/home'
     | '/admin/review/$id'
@@ -155,6 +215,11 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   StatusRoute: typeof StatusRoute
   AdminReviewRoute: typeof AdminReviewRouteWithChildren
+  EmployerHomeRoute: typeof EmployerHomeRoute
+  EmployerLoginRoute: typeof EmployerLoginRoute
+  EmployerOtpRoute: typeof EmployerOtpRoute
+  EmployerProfileRoute: typeof EmployerProfileRoute
+  EmployerSearchRoute: typeof EmployerSearchRoute
   PassportSlugRoute: typeof PassportSlugRoute
   WorkerHomeRoute: typeof WorkerHomeRoute
 }
@@ -217,6 +282,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PassportSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/employer/search': {
+      id: '/employer/search'
+      path: '/employer/search'
+      fullPath: '/employer/search'
+      preLoaderRoute: typeof EmployerSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employer/profile': {
+      id: '/employer/profile'
+      path: '/employer/profile'
+      fullPath: '/employer/profile'
+      preLoaderRoute: typeof EmployerProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employer/otp': {
+      id: '/employer/otp'
+      path: '/employer/otp'
+      fullPath: '/employer/otp'
+      preLoaderRoute: typeof EmployerOtpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employer/login': {
+      id: '/employer/login'
+      path: '/employer/login'
+      fullPath: '/employer/login'
+      preLoaderRoute: typeof EmployerLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/employer/home': {
+      id: '/employer/home'
+      path: '/employer/home'
+      fullPath: '/employer/home'
+      preLoaderRoute: typeof EmployerHomeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/review': {
       id: '/admin/review'
       path: '/admin/review'
@@ -254,6 +354,11 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   StatusRoute: StatusRoute,
   AdminReviewRoute: AdminReviewRouteWithChildren,
+  EmployerHomeRoute: EmployerHomeRoute,
+  EmployerLoginRoute: EmployerLoginRoute,
+  EmployerOtpRoute: EmployerOtpRoute,
+  EmployerProfileRoute: EmployerProfileRoute,
+  EmployerSearchRoute: EmployerSearchRoute,
   PassportSlugRoute: PassportSlugRoute,
   WorkerHomeRoute: WorkerHomeRoute,
 }
