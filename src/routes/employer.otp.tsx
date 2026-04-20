@@ -78,7 +78,7 @@ function EmployerOtpPage() {
       >
         <div className="kp-card">
           <div className="mb-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--color-navy-light)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-navy)]">
-            Employer OTP
+            {t("employer_otp_badge")}
           </div>
           <h1 className="text-base font-semibold text-foreground">{t("otp_title")}</h1>
 
@@ -117,7 +117,7 @@ function EmployerOtpPage() {
             className="kp-btn mt-5 disabled:opacity-40"
             style={{ background: "var(--gradient-navy)", color: "white" }}
           >
-            {loading ? t("loading") : "Verify OTP"}
+            {loading ? t("loading") : t("verify_otp")}
           </button>
         </div>
       </motion.div>

@@ -22,13 +22,13 @@ interface WorkerHit {
   level: number | null;
 }
 
-const TRADES: { value: "" | Trade; label: string }[] = [
-  { value: "", label: "All trades" },
-  { value: "electrician", label: "Electrician" },
-  { value: "plumber", label: "Plumber" },
-  { value: "welder", label: "Welder" },
-  { value: "carpenter", label: "Carpenter" },
-  { value: "ac_tech", label: "AC Tech" },
+const TRADES: { value: "" | Trade; labelKey: string }[] = [
+  { value: "", labelKey: "employer_all_trades" },
+  { value: "electrician", labelKey: "trade_electrician" },
+  { value: "plumber", labelKey: "trade_plumber" },
+  { value: "welder", labelKey: "trade_welder" },
+  { value: "carpenter", labelKey: "trade_carpenter" },
+  { value: "ac_tech", labelKey: "trade_ac_tech" },
 ];
 
 function EmployerSearchPage() {
@@ -111,8 +111,8 @@ function EmployerSearchPage() {
   }, [employer]);
 
   const tradeFilter = useMemo(
-    () => TRADES.find((tr) => tr.value === trade)?.label ?? "All trades",
-    [trade],
+    () => t(TRADES.find((tr) => tr.value === trade)?.labelKey ?? "employer_all_trades"),
+    [trade, t],
   );
 
   const handleAction = async (
@@ -132,7 +132,7 @@ function EmployerSearchPage() {
                 <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </Link>
-            <h1 className="text-base font-bold">Find Workers</h1>
+            <h1 className="text-base font-bold">{t("employer_search_title")}</h1>
           </div>
           <span className="text-xs font-medium text-muted-foreground">{tradeFilter}</span>
         </div>
@@ -146,21 +146,21 @@ function EmployerSearchPage() {
         {/* Filters */}
         <div className="grid grid-cols-2 gap-3 rounded-2xl border border-border bg-card p-4">
           <div className="col-span-2">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Trade</label>
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t("employer_filter_trade")}</label>
             <select className="kp-input mt-1" value={trade} onChange={(e) => setTrade(e.target.value as "" | Trade)}>
-              {TRADES.map((tr) => <option key={tr.value} value={tr.value}>{tr.label}</option>)}
+              {TRADES.map((tr) => <option key={tr.value} value={tr.value}>{t(tr.labelKey)}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">City</label>
-            <input className="kp-input mt-1" placeholder="Any" value={city} onChange={(e) => setCity(e.target.value)} />
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t("employer_filter_city")}</label>
+            <input className="kp-input mt-1" placeholder={t("employer_filter_any")} value={city} onChange={(e) => setCity(e.target.value)} />
           </div>
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Max ₹/day</label>
-            <input className="kp-input mt-1" type="number" placeholder="Any" value={maxWage} onChange={(e) => setMaxWage(e.target.value)} />
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t("employer_filter_max_wage")}</label>
+            <input className="kp-input mt-1" type="number" placeholder={t("employer_filter_any")} value={maxWage} onChange={(e) => setMaxWage(e.target.value)} />
           </div>
           <div className="col-span-2">
-            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Min Level</label>
+            <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t("employer_filter_min_level")}</label>
             <div className="mt-1 flex gap-2">
               {[0, 1, 2, 3].map((n) => (
                 <button
@@ -172,7 +172,7 @@ function EmployerSearchPage() {
                       : "border-border bg-card text-muted-foreground"
                   }`}
                 >
-                  {n === 0 ? "Any" : `L${n}+`}
+                  {n === 0 ? t("employer_filter_any") : `L${n}+`}
                 </button>
               ))}
             </div>
@@ -183,19 +183,19 @@ function EmployerSearchPage() {
             className="kp-btn col-span-2 disabled:opacity-50"
             style={{ background: "var(--gradient-navy)", color: "white" }}
           >
-            {busy ? t("loading") : "Search"}
+            {busy ? t("loading") : t("employer_search_btn")}
           </button>
         </div>
 
         {/* Results */}
         <p className="mt-5 text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground/70">
-          {results.length} verified worker{results.length === 1 ? "" : "s"}
+          {results.length} {results.length === 1 ? t("employer_results_count_one") : t("employer_results_count")}
         </p>
 
         <div className="mt-3 space-y-3">
           {results.length === 0 && !busy && (
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-6 text-center text-sm text-muted-foreground">
-              No workers match these filters yet.
+              {t("employer_no_results")}
             </div>
           )}
           {results.map((w) => (
@@ -207,13 +207,13 @@ function EmployerSearchPage() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[15px] font-extrabold text-foreground">{w.name}</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    {t(`trade_${w.trade}`)} · {w.city} · {w.experience_years} yr
+                    {t(`trade_${w.trade}`)} · {w.city} · {w.experience_years} {t("employer_years_short")}
                   </p>
                   <div className="mt-2 flex items-center gap-2">
                     <span className="rounded-md bg-[var(--color-verified-light)] px-2 py-0.5 text-[11px] font-bold text-[var(--color-verified-mid)]">
-                      ✓ Level {w.level ?? "—"}
+                      ✓ {t("skill_level")} {w.level ?? "—"}
                     </span>
-                    <span className="text-[11px] font-semibold text-foreground">₹{w.daily_wage}/day</span>
+                    <span className="text-[11px] font-semibold text-foreground">₹{w.daily_wage}{t("employer_per_day")}</span>
                   </div>
                 </div>
               </div>
@@ -225,27 +225,27 @@ function EmployerSearchPage() {
                     onClick={() => handleAction(w.worker_id, "view")}
                     className="rounded-lg border border-border py-2 text-center text-xs font-bold text-foreground hover:bg-muted"
                   >
-                    Passport
+                    {t("employer_action_passport")}
                   </Link>
                 )}
                 <button
                   onClick={() => handleAction(w.worker_id, "call", `tel:+91${w.phone}`)}
                   className="rounded-lg border border-border py-2 text-xs font-bold text-foreground hover:bg-muted"
                 >
-                  Call
+                  {t("employer_action_call")}
                 </button>
                 <button
                   onClick={() =>
                     handleAction(
                       w.worker_id,
                       "whatsapp",
-                      `https://wa.me/91${w.phone}?text=${encodeURIComponent(`Hi ${w.name}, I saw your KaamProof Skill Passport.`)}`,
+                      `https://wa.me/91${w.phone}?text=${encodeURIComponent(t("employer_wa_message").replace("{name}", w.name))}`,
                     )
                   }
                   className="rounded-lg py-2 text-xs font-bold text-white"
                   style={{ background: "#25D366" }}
                 >
-                  WhatsApp
+                  {t("employer_action_whatsapp")}
                 </button>
               </div>
             </div>

@@ -62,16 +62,16 @@ function LandingPage() {
         {/* Hero */}
         <div className="text-center">
           <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-verified-light)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-verified-mid)]">
-            ✓ Verified Skills Platform
+            ✓ {t("landing_badge")}
           </span>
           <h1 className="mt-4 text-[32px] font-extrabold leading-[1.1] tracking-tight text-foreground">
             KaamProof
           </h1>
           <p className="mt-2 text-[18px] font-bold text-foreground">
-            आपकी Skill, <span className="text-primary">Verified.</span>
+            {t("landing_tagline_main")} <span className="text-primary">{t("landing_tagline_accent")}</span>
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Verified tradespeople. Real video tests. Trusted by employers.
+            {t("landing_subtitle")}
           </p>
         </div>
 
@@ -87,10 +87,10 @@ function LandingPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] font-extrabold text-foreground">
-                  Worker हैं
+                  {t("landing_worker_title")}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  Apni skill verify karwayein · Get a Skill Passport
+                  {t("landing_worker_desc")}
                 </p>
               </div>
               <span className="text-primary">→</span>
@@ -108,10 +108,10 @@ function LandingPage() {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="text-[16px] font-extrabold text-foreground">
-                  Employer हैं
+                  {t("landing_employer_title")}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  Verified workers hire karein · Hire trusted tradespeople
+                  {t("landing_employer_desc")}
                 </p>
               </div>
               <span className="text-[var(--color-navy-mid)]">→</span>
@@ -122,25 +122,25 @@ function LandingPage() {
         {/* How it works */}
         <section className="mt-9">
           <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground/70">
-            How it works for workers
+            {t("landing_how_it_works")}
           </p>
           <div className="mt-3 grid grid-cols-3 gap-2">
-            <Step n={1} label="Profile" />
-            <Step n={2} label="Video Test" />
-            <Step n={3} label="Passport" />
+            <Step n={1} label={t("landing_step_profile")} />
+            <Step n={2} label={t("landing_step_video")} />
+            <Step n={3} label={t("landing_step_passport")} />
           </div>
         </section>
 
         {/* Trust strip */}
         <div className="mt-8 rounded-2xl border border-border bg-card p-4 text-center text-xs text-muted-foreground">
           <p className="font-semibold text-foreground">
-            Tamper-proof · Employer-verified · Shareable
+            {t("landing_trust_line1")}
           </p>
-          <p className="mt-1">Issued by KaamProof · Valid 2 years</p>
+          <p className="mt-1">{t("landing_trust_line2")}</p>
         </div>
 
         <p className="mt-6 text-center text-[11px] text-muted-foreground">
-          {t("tagline")} · Your Skills, Verified
+          {t("tagline")}
         </p>
       </motion.main>
     </div>
