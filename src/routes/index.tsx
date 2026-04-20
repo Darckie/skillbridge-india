@@ -1,84 +1,184 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, useT } from "@/lib/i18n";
 import { useWorker } from "@/lib/worker-store";
+import { useEmployer } from "@/lib/employer-store";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/")({
-  component: LanguageSelect,
+  component: LandingPage,
 });
 
-function LanguageSelect() {
-  const { setLang } = useI18n();
+function LandingPage() {
+  const { setLang, lang } = useI18n();
+  const t = useT();
   const navigate = useNavigate();
-  const { loading, isLoggedIn } = useWorker();
+  const { loading: wLoading, isLoggedIn: wLoggedIn } = useWorker();
+  const { loading: eLoading, isLoggedIn: eLoggedIn, employer } = useEmployer();
 
+  // Auto-route already-signed-in users
   useEffect(() => {
-    if (!loading && isLoggedIn) navigate({ to: "/worker/home" });
-  }, [loading, isLoggedIn, navigate]);
+    if (wLoading || eLoading) return;
+    if (eLoggedIn && employer) navigate({ to: "/employer/home" });
+    else if (wLoggedIn) navigate({ to: "/worker/home" });
+  }, [wLoading, eLoading, wLoggedIn, eLoggedIn, employer, navigate]);
 
-  const pick = (lang: "hi" | "en") => {
-    setLang(lang);
-    navigate({ to: "/login" });
-  };
+  const goWorker = () => navigate({ to: "/login" });
+  const goEmployer = () => navigate({ to: "/employer/login" });
 
   return (
-    <div className="kp-screen items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
+    <div className="kp-screen">
+      {/* Top bar */}
+      <header className="border-b border-border bg-card/80 backdrop-blur">
+        <div className="kp-container flex h-14 items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary">
+              <ShieldIcon />
+            </div>
+            <span className="text-base font-extrabold tracking-tight">KaamProof</span>
+          </div>
+          <div className="flex gap-1 rounded-full bg-muted p-0.5 text-xs font-semibold">
+            <button
+              onClick={() => setLang("hi")}
+              className={`rounded-full px-2.5 py-1 ${lang === "hi" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
+            >
+              हिं
+            </button>
+            <button
+              onClick={() => setLang("en")}
+              className={`rounded-full px-2.5 py-1 ${lang === "en" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground"}`}
+            >
+              EN
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <motion.main
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-        className="kp-container text-center"
+        className="kp-container flex-1 py-8"
       >
-        {/* Logo */}
-        <div className="mx-auto mb-5 flex h-[72px] w-[72px] items-center justify-center rounded-[20px]  kp-btn-primary shadow-[0_4px_16px_rgba(37,99,235,0.3)]">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-white">
-            <path
-              d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-              stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            />
-          </svg>
+        {/* Hero */}
+        <div className="text-center">
+          <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-verified-light)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-verified-mid)]">
+            ✓ Verified Skills Platform
+          </span>
+          <h1 className="mt-4 text-[32px] font-extrabold leading-[1.1] tracking-tight text-foreground">
+            KaamProof
+          </h1>
+          <p className="mt-2 text-[18px] font-bold text-foreground">
+            आपकी Skill, <span className="text-primary">Verified.</span>
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Verified tradespeople. Real video tests. Trusted by employers.
+          </p>
         </div>
 
-        {/* Eyebrow */}
-        <p className="mb-1 text-[11px] font-medium uppercase tracking-widest text-muted-foreground">
-          Verified Skills Platform
-        </p>
-
-        <h1 className="text-[28px] font-bold tracking-tight text-foreground">KaamProof</h1>
-
-        {/* Divider accent */}
-        <div className="mx-auto my-3 h-[2px] w-10 rounded-full bg-blue-500/50" />
-
-        <p className="text-lg font-semibold text-foreground">अपनी भाषा चुनें</p>
-        <p className="mt-0.5 text-sm text-muted-foreground">Choose your language to continue</p>
-
-        {/* Language Buttons */}
-        <div className="mt-8 space-y-3">
+        {/* Two CTAs */}
+        <div className="mt-7 grid gap-3">
           <button
-            onClick={() => pick("hi")}
-            className="kp-btn bg-blue-600 text-white flex items-center justify-center gap-2 text-[16px]"
+            onClick={goWorker}
+            className="group rounded-2xl border-2 border-[oklch(0.68_0.16_55_/_0.4)] bg-[linear-gradient(135deg,#FFF8F0_0%,#FEEDD9_100%)] p-5 text-left transition-shadow hover:shadow-[var(--shadow-card)]"
           >
-            {/* <span className="text-lg">🇮🇳</span> */}
-            हिन्दी
-            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-medium">
-              Recommended
-            </span>
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary">
+                <PersonIcon />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[16px] font-extrabold text-foreground">
+                  Worker हैं
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Apni skill verify karwayein · Get a Skill Passport
+                </p>
+              </div>
+              <span className="text-primary">→</span>
+            </div>
           </button>
 
           <button
-            onClick={() => pick("en")}
-            className="kp-btn kp-btn-outline flex items-center justify-center gap-2 text-[16px]"
+            onClick={goEmployer}
+            className="group rounded-2xl border-2 border-[oklch(0.36_0.09_255_/_0.25)] p-5 text-left transition-shadow hover:shadow-[var(--shadow-card)]"
+            style={{ background: "linear-gradient(135deg, #F5F8FF 0%, #EBF1FA 100%)" }}
           >
-            {/* <span className="text-lg">🇬🇧</span> */}
-            English
+            <div className="flex items-center gap-4">
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[var(--color-navy-badge)] text-[var(--color-navy)]">
+                <BriefcaseIcon />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-[16px] font-extrabold text-foreground">
+                  Employer हैं
+                </p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
+                  Verified workers hire karein · Hire trusted tradespeople
+                </p>
+              </div>
+              <span className="text-[var(--color-navy-mid)]">→</span>
+            </div>
           </button>
         </div>
 
-        <p className="mt-8 text-[11px] text-muted-foreground">
-          आपकी स्किल, वेरिफाइड · Your Skills, Verified
+        {/* How it works */}
+        <section className="mt-9">
+          <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground/70">
+            How it works for workers
+          </p>
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <Step n={1} label="Profile" />
+            <Step n={2} label="Video Test" />
+            <Step n={3} label="Passport" />
+          </div>
+        </section>
+
+        {/* Trust strip */}
+        <div className="mt-8 rounded-2xl border border-border bg-card p-4 text-center text-xs text-muted-foreground">
+          <p className="font-semibold text-foreground">
+            Tamper-proof · Employer-verified · Shareable
+          </p>
+          <p className="mt-1">Issued by KaamProof · Valid 2 years</p>
+        </div>
+
+        <p className="mt-6 text-center text-[11px] text-muted-foreground">
+          {t("tagline")} · Your Skills, Verified
         </p>
-      </motion.div>
+      </motion.main>
     </div>
+  );
+}
+
+function Step({ n, label }: { n: number; label: string }) {
+  return (
+    <div className="rounded-xl border border-border bg-card p-3 text-center">
+      <div className="mx-auto flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-sm font-extrabold text-primary">
+        {n}
+      </div>
+      <p className="mt-2 text-[12px] font-semibold text-foreground">{label}</p>
+    </div>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="text-white">
+      <path d="M12 2l8 3v6c0 5-3.5 9.5-8 11-4.5-1.5-8-6-8-11V5l8-3z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+      <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PersonIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function BriefcaseIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2m-9 0h14a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9a2 2 0 012-2z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }

@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import appCss from "../styles.css?url";
 import { I18nProvider } from "@/lib/i18n";
 import { WorkerProvider } from "@/lib/worker-store";
+import { EmployerProvider } from "@/lib/employer-store";
 
 function NotFoundComponent() {
   return (
@@ -60,7 +61,9 @@ function RootComponent() {
   return (
     <I18nProvider>
       <WorkerProvider>
-        <Outlet />
+        <EmployerProvider>
+          <Outlet />
+        </EmployerProvider>
       </WorkerProvider>
     </I18nProvider>
   );

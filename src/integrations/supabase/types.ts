@@ -79,6 +79,118 @@ export type Database = {
           },
         ]
       }
+      employer_actions: {
+        Row: {
+          action: string
+          created_at: string
+          employer_id: string
+          id: string
+          worker_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          employer_id: string
+          id?: string
+          worker_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          employer_id?: string
+          id?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "employer_actions_employer_id_fkey"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "employer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      employer_profiles: {
+        Row: {
+          auth_user_id: string
+          city: string
+          company_name: string
+          contact_name: string
+          created_at: string
+          id: string
+          phone: string
+          updated_at: string
+        }
+        Insert: {
+          auth_user_id: string
+          city: string
+          company_name: string
+          contact_name: string
+          created_at?: string
+          id?: string
+          phone: string
+          updated_at?: string
+        }
+        Update: {
+          auth_user_id?: string
+          city?: string
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          id?: string
+          phone?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      job_posts: {
+        Row: {
+          city: string
+          created_at: string
+          description: string | null
+          employer_id: string
+          id: string
+          status: string
+          title: string
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at: string
+          wage_offered: number
+        }
+        Insert: {
+          city: string
+          created_at?: string
+          description?: string | null
+          employer_id: string
+          id?: string
+          status?: string
+          title: string
+          trade: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          wage_offered: number
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          description?: string | null
+          employer_id?: string
+          id?: string
+          status?: string
+          title?: string
+          trade?: Database["public"]["Enums"]["trade_type"]
+          updated_at?: string
+          wage_offered?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_posts_employer_id_fkey"
+            columns: ["employer_id"]
+            isOneToOne: false
+            referencedRelation: "employer_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -188,7 +300,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "reviewer" | "user"
+      app_role: "admin" | "reviewer" | "user" | "employer"
       assessment_status: "pending_review" | "verified" | "needs_rerecord"
       lang_type: "hi" | "en"
       reviewer_mode: "human_only" | "ai_only" | "human_and_ai"
@@ -320,7 +432,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "reviewer", "user"],
+      app_role: ["admin", "reviewer", "user", "employer"],
       assessment_status: ["pending_review", "verified", "needs_rerecord"],
       lang_type: ["hi", "en"],
       reviewer_mode: ["human_only", "ai_only", "human_and_ai"],
