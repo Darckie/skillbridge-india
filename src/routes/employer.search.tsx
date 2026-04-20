@@ -75,7 +75,9 @@ function EmployerSearchPage() {
         };
       };
 
-      let hits: WorkerHit[] = (data as unknown as Row[]).map((r) => ({
+      let hits: WorkerHit[] = (data as unknown as Row[])
+        .filter((r) => r.workers?.passport_slug)
+        .map((r) => ({
         worker_id: r.worker_id,
         passport_slug: r.workers.passport_slug,
         phone: r.workers.phone,
