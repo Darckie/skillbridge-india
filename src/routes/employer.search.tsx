@@ -54,10 +54,8 @@ function EmployerSearchPage() {
         .from("assessments")
         .select(
           "worker_id, level, trade, workers!inner(id, phone, passport_slug), worker_profiles!inner(name, city, trade, experience_years, daily_wage)",
-          { count: "exact" },
         )
-        .eq("status", "verified")
-        .not("workers.passport_slug", "is", null);
+        .eq("status", "verified");
 
       if (trade) q = q.eq("trade", trade);
       if (minLevel > 0) q = q.gte("level", minLevel);
