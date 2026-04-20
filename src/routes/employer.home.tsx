@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useT } from "@/lib/i18n";
+import { useT, useI18n } from "@/lib/i18n";
 import { useEmployer, createJobPost, setJobStatus } from "@/lib/employer-store";
 import { signOut } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +21,7 @@ const TRADES: { value: Trade; labelKey: string }[] = [
 
 function EmployerHomePage() {
   const t = useT();
+  const { lang, setLang } = useI18n();
   const navigate = useNavigate();
   const { loading, isLoggedIn, employer, jobs, refresh } = useEmployer();
   const [contacted, setContacted] = useState<number>(0);
@@ -75,12 +76,28 @@ function EmployerHomePage() {
               <p className="text-sm font-bold leading-tight">{employer.company_name}</p>
             </div>
           </div>
-          <button
-            onClick={handleLogout}
-            className="text-xs font-medium text-white/80 hover:text-white"
-          >
-            {t("logout")}
-          </button>
+          <div className="flex items-center gap-2">
+            <div className="flex gap-0.5 rounded-full bg-white/15 p-0.5 text-[11px] font-bold text-white">
+              <button
+                onClick={() => setLang("hi")}
+                className={`rounded-full px-2 py-0.5 ${lang === "hi" ? "bg-white text-[var(--color-navy)]" : "text-white/80"}`}
+              >
+                हिं
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={`rounded-full px-2 py-0.5 ${lang === "en" ? "bg-white text-[var(--color-navy)]" : "text-white/80"}`}
+              >
+                EN
+              </button>
+            </div>
+            <button
+              onClick={handleLogout}
+              className="text-xs font-medium text-white/80 hover:text-white"
+            >
+              {t("logout")}
+            </button>
+          </div>
         </div>
       </header>
 
