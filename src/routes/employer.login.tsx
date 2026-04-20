@@ -41,11 +41,11 @@ function EmployerLoginPage() {
         <div className="kp-card">
           <div className="mb-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--color-navy-light)] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-[var(--color-navy)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-navy-mid)]" />
-            Employer Login
+            {t("employer_login_badge")}
           </div>
-          <h1 className="text-lg font-semibold text-foreground">Welcome, Employer</h1>
+          <h1 className="text-lg font-semibold text-foreground">{t("employer_login_title")}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Hire verified workers. Phone पर OTP भेजेंगे।
+            {t("employer_login_subtitle")}
           </p>
 
           <div className="mt-5">
@@ -79,9 +79,9 @@ function EmployerLoginPage() {
           </button>
 
           <div className="mt-4 text-center text-xs text-muted-foreground">
-            Worker हैं?{" "}
+            {t("employer_login_worker_q")}{" "}
             <Link to="/login" className="font-semibold text-[var(--color-navy-mid)]">
-              Worker Login
+              {t("employer_login_worker_link")}
             </Link>
           </div>
         </div>

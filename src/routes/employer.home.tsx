@@ -90,17 +90,17 @@ function EmployerHomePage() {
         className="kp-container py-6"
       >
         <h1 className="text-[24px] font-extrabold tracking-tight">
-          Hire verified workers
+          {t("employer_home_title")}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Browse skill passports of verified tradespeople in your city.
+          {t("employer_home_subtitle")}
         </p>
 
         {/* Stat cards */}
         <div className="mt-5 grid grid-cols-3 gap-3">
-          <Stat label="Open Jobs" value={openJobs} />
-          <Stat label="Workers Contacted" value={contacted} />
-          <Stat label="Avg Wage" value={`₹${avgWage || 0}`} />
+          <Stat label={t("employer_stat_open_jobs")} value={openJobs} />
+          <Stat label={t("employer_stat_contacted")} value={contacted} />
+          <Stat label={t("employer_stat_avg_wage")} value={`₹${avgWage || 0}`} />
         </div>
 
         {/* Search CTA */}
@@ -114,8 +114,8 @@ function EmployerHomePage() {
               <SearchIcon />
             </div>
             <div>
-              <p className="text-[15px] font-extrabold text-foreground">Find Workers</p>
-              <p className="text-xs text-muted-foreground">Filter by trade, city & level</p>
+              <p className="text-[15px] font-extrabold text-foreground">{t("employer_find_workers")}</p>
+              <p className="text-xs text-muted-foreground">{t("employer_find_workers_desc")}</p>
             </div>
           </div>
           <span className="text-[var(--color-navy-mid)]">→</span>
@@ -124,13 +124,13 @@ function EmployerHomePage() {
         {/* Jobs section */}
         <div className="mt-7 flex items-center justify-between">
           <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted-foreground/70">
-            Your Job Posts
+            {t("employer_your_jobs")}
           </p>
           <button
             onClick={() => setShowCreate((v) => !v)}
             className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground"
           >
-            {showCreate ? "Cancel" : "+ New Job"}
+            {showCreate ? t("employer_cancel") : t("employer_new_job")}
           </button>
         </div>
 
@@ -148,7 +148,7 @@ function EmployerHomePage() {
         <div className="mt-3 space-y-2.5">
           {jobs.length === 0 && !showCreate && (
             <div className="rounded-2xl border border-dashed border-border bg-muted/30 p-6 text-center text-sm text-muted-foreground">
-              No jobs posted yet. Tap “+ New Job” to add one.
+              {t("employer_no_jobs")}
             </div>
           )}
           {jobs.map((j) => (
@@ -157,7 +157,7 @@ function EmployerHomePage() {
                 <div className="min-w-0">
                   <p className="truncate text-[15px] font-bold text-foreground">{j.title}</p>
                   <p className="mt-0.5 text-xs text-muted-foreground">
-                    {t(`trade_${j.trade}`)} · {j.city} · ₹{j.wage_offered}/day
+                    {t(`trade_${j.trade}`)} · {j.city} · ₹{j.wage_offered}{t("employer_per_day")}
                   </p>
                 </div>
                 <span
@@ -167,7 +167,7 @@ function EmployerHomePage() {
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {j.status === "open" ? "Open" : "Closed"}
+                  {j.status === "open" ? t("employer_job_open") : t("employer_job_closed")}
                 </span>
               </div>
               {j.description && (
@@ -180,7 +180,7 @@ function EmployerHomePage() {
                 }}
                 className="mt-3 text-xs font-semibold text-[var(--color-navy-mid)]"
               >
-                {j.status === "open" ? "Mark closed" : "Reopen"}
+                {j.status === "open" ? t("employer_mark_closed") : t("employer_reopen")}
               </button>
             </div>
           ))}
@@ -236,20 +236,20 @@ function CreateJobForm({
 
   return (
     <div className="mt-3 space-y-3 rounded-2xl border border-border bg-card p-4">
-      <input className="kp-input" placeholder="Job title (e.g. Electrician needed for shop)" value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input className="kp-input" placeholder={t("employer_job_title_ph")} value={title} onChange={(e) => setTitle(e.target.value)} />
       <select className="kp-input" value={trade} onChange={(e) => setTrade(e.target.value as Trade)}>
         {TRADES.map((tr) => (
           <option key={tr.value} value={tr.value}>{t(tr.labelKey)}</option>
         ))}
       </select>
       <div className="grid grid-cols-2 gap-3">
-        <input className="kp-input" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} />
-        <input className="kp-input" type="number" placeholder="Wage ₹/day" value={wage} onChange={(e) => setWage(e.target.value)} />
+        <input className="kp-input" placeholder={t("city")} value={city} onChange={(e) => setCity(e.target.value)} />
+        <input className="kp-input" type="number" placeholder={t("employer_job_wage_ph")} value={wage} onChange={(e) => setWage(e.target.value)} />
       </div>
-      <textarea className="kp-input min-h-[72px] py-2" placeholder="Description (optional)" value={desc} onChange={(e) => setDesc(e.target.value)} />
+      <textarea className="kp-input min-h-[72px] py-2" placeholder={t("employer_job_desc_ph")} value={desc} onChange={(e) => setDesc(e.target.value)} />
       {err && <p className="text-xs text-destructive">{err}</p>}
       <button onClick={submit} disabled={!valid || busy} className="kp-btn kp-btn-primary disabled:opacity-40">
-        {busy ? t("loading") : "Post Job"}
+        {busy ? t("loading") : t("employer_post_job")}
       </button>
     </div>
   );

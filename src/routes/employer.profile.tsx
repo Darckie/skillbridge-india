@@ -64,7 +64,7 @@ function EmployerProfilePage() {
     <div className="kp-screen">
       <header className="border-b border-border bg-card">
         <div className="kp-container flex h-14 items-center">
-          <h1 className="text-base font-bold">Company Details</h1>
+          <h1 className="text-base font-bold">{t("employer_company_details")}</h1>
         </div>
       </header>
 
@@ -74,14 +74,14 @@ function EmployerProfilePage() {
         className="kp-container py-6"
       >
         <p className="text-sm text-muted-foreground">
-          अपनी कंपनी की जानकारी भरें ताकि workers को verified hiring offers मिल सकें।
+          {t("employer_company_intro")}
         </p>
 
         <div className="mt-5 space-y-4">
-          <Field label="Company / Business Name" value={companyName} onChange={setCompanyName} placeholder="e.g. Sharma Constructions" />
-          <Field label="City · शहर" value={city} onChange={setCity} placeholder="e.g. Delhi" />
-          <Field label="Contact Person" value={contactName} onChange={setContactName} placeholder="Full name" />
-          <Field label="Contact Phone (+91)" value={phone} onChange={(v) => setPhone(v.replace(/\D/g, ""))} placeholder="10-digit" maxLength={10} />
+          <Field label={t("employer_field_company")} value={companyName} onChange={setCompanyName} placeholder={t("employer_field_company_ph")} />
+          <Field label={t("employer_field_city")} value={city} onChange={setCity} placeholder={t("employer_field_city_ph")} />
+          <Field label={t("employer_field_contact")} value={contactName} onChange={setContactName} placeholder={t("employer_field_contact_ph")} />
+          <Field label={t("employer_field_phone")} value={phone} onChange={(v) => setPhone(v.replace(/\D/g, ""))} placeholder={t("employer_field_phone_ph")} maxLength={10} />
         </div>
 
         {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
@@ -92,7 +92,7 @@ function EmployerProfilePage() {
           className="kp-btn mt-6 disabled:opacity-40"
           style={{ background: "var(--gradient-navy)", color: "white" }}
         >
-          {saving ? t("loading") : "Save & Continue"}
+          {saving ? t("loading") : t("save_continue")}
         </button>
       </motion.div>
     </div>
