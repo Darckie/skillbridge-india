@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from "react";
 import en from "@/i18n/en.json";
 import hi from "@/i18n/hi.json";
 
@@ -15,20 +15,29 @@ interface I18nContextType {
 
 const I18nContext = createContext<I18nContextType | null>(null);
 
-function getSavedLang(): Lang | null {
-  if (typeof window === "undefined") return null;
-  const saved = localStorage.getItem("lang");
-  if (saved === "hi" || saved === "en") return saved;
-  return null;
-}
-
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(() => getSavedLang() || "hi");
+  // Always start with "hi" so SSR and initial client render match (no hydration mismatch).
+  // Then read localStorage in an effect after mount.
+  const [lang, setLangState] = useState<Lang>("hi");
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("lang");
+      if (saved === "hi" || saved === "en") {
+        if (saved !== lang) setLangState(saved);
+      }
+    } catch {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
-    if (typeof window !== "undefined") {
+    try {
       localStorage.setItem("lang", l);
+    } catch {
+      // ignore
     }
   }, []);
 
