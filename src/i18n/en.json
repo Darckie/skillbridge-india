@@ -1,6 +1,18 @@
 {
   "app_name": "KaamProof",
   "tagline": "Your Skills, Verified.",
+
+  "login_title": "Login",
+  "login_subtitle": "Enter your phone to continue",
+  "phone_label": "Mobile Number",
+  "ready_to_send": "Ready to send OTP",
+  "digits_needed": "more digits needed",
+  "sending": "Sending...",
+  "secure": "secure",
+  "no_password": "No password needed",
+  "otp_verification": "SMS OTP verification",
+  "error_generic": "Something went wrong",
+
   "choose_language": "Choose your language",
   "choose_language_hi": "अपनी भाषा चुनें",
   "hindi_recommended": "हिन्दी (अनुशंसित)",
@@ -8,12 +20,14 @@
   "phone_title": "Enter your mobile number",
   "phone_placeholder": "10-digit mobile number",
   "send_otp": "Send OTP",
+
   "otp_title": "Enter OTP",
   "otp_sent_to": "OTP sent to",
   "otp_placeholder": "Enter 6-digit OTP",
   "verify": "Verify",
   "resend_otp": "Resend OTP",
-  "otp_invalid": "Invalid OTP. Please try again.",
+  "otp_invalid": "Invalid OTP. Please try again",
+
   "profile_title": "Your Details",
   "name": "Full Name",
   "name_placeholder": "Enter your full name",

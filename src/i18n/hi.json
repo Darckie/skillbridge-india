@@ -1,6 +1,19 @@
 {
-  "app_name": "कामप्रूफ",
+  "app_name": "काम - प्रूफ",
+  
   "tagline": "आपकी स्किल, वेरिफाइड।",
+
+  "login_title": "लॉग इन करें",
+  "login_subtitle": "जारी रखने के लिए अपना नंबर दर्ज करें",
+  "phone_label": "मोबाइल नंबर",
+  "ready_to_send": "OTP भेजने के लिए तैयार",
+  "digits_needed": "और अंक चाहिए",
+  "sending": "भेजा जा रहा है...",
+  "secure": "सुरक्षित",
+  "no_password": "पासवर्ड की आवश्यकता नहीं",
+  "otp_verification": "SMS OTP सत्यापन",
+  "error_generic": "कुछ गलत हो गया",
+
   "choose_language": "Choose your language",
   "choose_language_hi": "अपनी भाषा चुनें",
   "hindi_recommended": "हिन्दी (अनुशंसित)",
@@ -8,12 +21,13 @@
   "phone_title": "अपना मोबाइल नंबर डालें",
   "phone_placeholder": "10 अंकों का मोबाइल नंबर",
   "send_otp": "OTP भेजें",
+
   "otp_title": "OTP डालें",
   "otp_sent_to": "OTP भेजा गया",
   "otp_placeholder": "6 अंकों का OTP डालें",
   "verify": "वेरिफाई करें",
   "resend_otp": "OTP दोबारा भेजें",
-  "otp_invalid": "गलत OTP। कृपया दोबारा कोशिश करें।",
+  "otp_invalid": "गलत OTP। कृपया दोबारा कोशिश करें",
   "profile_title": "आपकी जानकारी",
   "name": "पूरा नाम",
   "name_placeholder": "अपना पूरा नाम लिखें",
