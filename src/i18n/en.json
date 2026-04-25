@@ -199,5 +199,18 @@
   "employer_action_whatsapp": "WhatsApp",
   "employer_wa_message": "Hi {name}, I saw your KaamProof Skill Passport.",
   "employer_per_day": "/day",
-  "employer_years_short": "yr"
+  "employer_years_short": "yr",
+  "employer_create_job": "Create New Job",
+  "employer_select_trade": "Select trade",
+  "employer_filters": "Filters",
+  "employer_filter_active": "active",
+  "employer_view_applicants": "View Applicants",
+  "employer_empty_jobs_title": "No jobs yet",
+  "employer_empty_jobs_desc": "Post your first job to start finding verified workers.",
+  "employer_empty_results_title": "No verified workers found",
+  "employer_empty_results_desc": "Try a different trade or city.",
+  "employer_setup_label": "Employer Setup",
+  "employer_filter_level_any": "Any",
+  "employer_filter_level_2": "Level 2+",
+  "employer_filter_level_3": "Level 3 only"
 }

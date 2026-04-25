@@ -199,5 +199,18 @@
   "employer_action_whatsapp": "WhatsApp",
   "employer_wa_message": "नमस्ते {name}, मैंने आपका KaamProof स्किल पासपोर्ट देखा।",
   "employer_per_day": "/दिन",
-  "employer_years_short": "साल"
+  "employer_years_short": "साल",
+  "employer_create_job": "नया Job बनाएं",
+  "employer_select_trade": "ट्रेड चुनें",
+  "employer_filters": "फिल्टर",
+  "employer_filter_active": "सक्रिय",
+  "employer_view_applicants": "Applicants देखें",
+  "employer_empty_jobs_title": "अभी कोई job नहीं",
+  "employer_empty_jobs_desc": "वेरिफाइड workers ढूँढने के लिए पहला job पोस्ट करें।",
+  "employer_empty_results_title": "कोई वेरिफाइड worker नहीं मिला",
+  "employer_empty_results_desc": "दूसरी ट्रेड या शहर ट्राय करें।",
+  "employer_setup_label": "एम्प्लॉयर सेटअप",
+  "employer_filter_level_any": "कोई भी",
+  "employer_filter_level_2": "लेवल 2+",
+  "employer_filter_level_3": "केवल लेवल 3"
 }
