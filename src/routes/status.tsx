@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useT } from "@/lib/i18n";
 import { useWorker } from "@/lib/worker-store";
 import { WorkerLayout } from "@/components/WorkerLayout";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 
 export const Route = createFileRoute("/status")({
@@ -12,17 +13,71 @@ export const Route = createFileRoute("/status")({
 function StatusPage() {
   const t = useT();
   const navigate = useNavigate();
-  const { loading, isLoggedIn, latestAssessment, worker } = useWorker();
+  const { loading, isLoggedIn, latestAssessment, worker, refresh } = useWorker();
 
   useEffect(() => {
     if (!loading && !isLoggedIn) navigate({ to: "/" });
   }, [loading, isLoggedIn, navigate]);
 
-  if (loading || !latestAssessment) {
+  // Auto-refresh while pending: poll every 10s + subscribe to realtime updates
+  useEffect(() => {
+    if (latestAssessment?.status !== "pending_review") return;
+    const workerId = latestAssessment.worker_id;
+
+    const interval = setInterval(() => {
+      refresh();
+    }, 10_000);
+
+    const channel = supabase
+      .channel(`assessments-${workerId}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "assessments",
+          filter: `worker_id=eq.${workerId}`,
+        },
+        () => {
+          refresh();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      clearInterval(interval);
+      supabase.removeChannel(channel);
+    };
+  }, [latestAssessment?.status, latestAssessment?.worker_id, refresh]);
+
+  if (loading) {
     return (
       <div className="kp-screen items-center justify-center">
         <p className="text-muted-foreground">{t("loading")}</p>
       </div>
+    );
+  }
+
+  if (!latestAssessment) {
+    return (
+      <WorkerLayout title={t("status_title")}>
+        <div className="kp-screen items-center justify-center">
+          <div className="kp-container text-center py-6">
+            <div className="kp-card">
+              <h1 className="text-lg font-bold">No assessment found</h1>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Go back and upload your video to get started.
+              </p>
+              <button
+                onClick={() => navigate({ to: "/assessment" })}
+                className="kp-btn kp-btn-primary mt-6"
+              >
+                Upload video
+              </button>
+            </div>
+          </div>
+        </div>
+      </WorkerLayout>
     );
   }
 
