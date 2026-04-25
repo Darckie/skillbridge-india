@@ -304,7 +304,16 @@ export type Database = {
       assessment_status: "pending_review" | "verified" | "needs_rerecord"
       lang_type: "hi" | "en"
       reviewer_mode: "human_only" | "ai_only" | "human_and_ai"
-      trade_type: "electrician" | "plumber" | "welder" | "carpenter" | "ac_tech"
+      trade_type:
+        | "electrician"
+        | "plumber"
+        | "welder"
+        | "carpenter"
+        | "ac_tech"
+        | "painter"
+        | "mason"
+        | "driver"
+        | "security_guard"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -436,7 +445,17 @@ export const Constants = {
       assessment_status: ["pending_review", "verified", "needs_rerecord"],
       lang_type: ["hi", "en"],
       reviewer_mode: ["human_only", "ai_only", "human_and_ai"],
-      trade_type: ["electrician", "plumber", "welder", "carpenter", "ac_tech"],
+      trade_type: [
+        "electrician",
+        "plumber",
+        "welder",
+        "carpenter",
+        "ac_tech",
+        "painter",
+        "mason",
+        "driver",
+        "security_guard",
+      ],
     },
   },
 } as const
