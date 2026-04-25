@@ -221,11 +221,9 @@ function AdminReviewDetail() {
             </button>
           </div>
           {data.ai_score_json ? (
-            <pre className="mt-2 overflow-x-auto rounded-lg bg-muted p-3 text-xs">
-              {JSON.stringify(data.ai_score_json, null, 2)}
-            </pre>
+            <AiRubricCard rubric={data.ai_score_json} t={t} />
           ) : (
-            <p className="mt-2 text-xs text-muted-foreground">Not run yet</p>
+            <p className="mt-2 text-xs text-muted-foreground">{t("ai_not_run")}</p>
           )}
         </div>
 
@@ -292,6 +290,71 @@ function RatingRow({ label, value, onChange }: { label: string; value: number; o
           </button>
         ))}
       </div>
+    </div>
+  );
+}
+
+function Dots({ value, max = 5 }: { value?: number; max?: number }) {
+  const v = typeof value === "number" ? Math.max(0, Math.min(max, value)) : 0;
+  return (
+    <div className="flex items-center gap-1">
+      {Array.from({ length: max }).map((_, i) => (
+        <span
+          key={i}
+          className={`inline-block h-2.5 w-2.5 rounded-full ${i < v ? "bg-[var(--color-navy-mid)]" : "bg-muted"}`}
+        />
+      ))}
+      <span className="ml-1.5 text-xs font-semibold text-muted-foreground">{v}/{max}</span>
+    </div>
+  );
+}
+
+function AiRubricCard({
+  rubric,
+  t,
+}: {
+  rubric: Record<string, unknown>;
+  t: (k: string) => string;
+}) {
+  const taskDone = rubric?.task_done_correctly as boolean | undefined;
+  const safety = rubric?.safety as number | undefined;
+  const neatness = rubric?.neatness as number | undefined;
+  const clarity = rubric?.clarity as number | undefined;
+  const comments = rubric?.comments as string | undefined;
+  return (
+    <div className="mt-3 space-y-3">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold text-foreground">{t("ai_task_done")}</span>
+        {taskDone === true ? (
+          <span className="kp-badge kp-badge-success">{t("yes")}</span>
+        ) : taskDone === false ? (
+          <span className="kp-badge" style={{ background: "oklch(from var(--destructive) l c h / 0.12)", color: "var(--destructive)" }}>{t("no")}</span>
+        ) : (
+          <span className="kp-badge bg-muted text-muted-foreground">—</span>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold text-foreground">{t("rubric_safety")}</span>
+        <Dots value={safety} />
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-semibold text-foreground">{t("rubric_neatness")}</span>
+        <Dots value={neatness} />
+      </div>
+      {typeof clarity === "number" && (
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold text-foreground">{t("rubric_clarity")}</span>
+          <Dots value={clarity} />
+        </div>
+      )}
+
+      {comments && (
+        <div className="rounded-lg bg-muted/50 p-3">
+          <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">{t("ai_comments")}</p>
+          <p className="mt-1 text-xs italic text-muted-foreground">{comments}</p>
+        </div>
+      )}
     </div>
   );
 }
