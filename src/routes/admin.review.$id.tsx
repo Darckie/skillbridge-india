@@ -137,8 +137,16 @@ function AdminReviewDetail() {
           level,
           capabilities_json: caps,
         };
-        // Generate slug if missing
-        const slug = `kp-${data.worker_id.slice(0, 8)}`;
+        // Generate human-readable slug if missing
+        const namePart = (data.worker_name || "worker")
+          .toLowerCase()
+          .replace(/\s+/g, "-")
+          .replace(/[^a-z-]/g, "")
+          .replace(/-+/g, "-")
+          .replace(/^-|-$/g, "")
+          .slice(0, 14) || "worker";
+        const digits = Math.floor(1000 + Math.random() * 9000);
+        const slug = `kp-${namePart}-${digits}`;
         await supabase
           .from("workers")
           .update({ passport_slug: slug })

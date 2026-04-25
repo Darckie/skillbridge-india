@@ -9,7 +9,16 @@ import {
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
-export type Trade = "electrician" | "plumber" | "welder" | "carpenter" | "ac_tech";
+export type Trade =
+  | "electrician"
+  | "plumber"
+  | "welder"
+  | "carpenter"
+  | "ac_tech"
+  | "painter"
+  | "mason"
+  | "driver"
+  | "security_guard";
 export type AssessmentStatus = "pending_review" | "verified" | "needs_rerecord";
 
 export interface WorkerRow {
@@ -210,7 +219,22 @@ export async function updateWorkerLanguage(workerId: string, language: "hi" | "e
   await supabase.from("workers").update({ language }).eq("id", workerId);
 }
 
-export async function setPassportSlugIfMissing(workerId: string): Promise<string> {
+export function buildPassportSlug(workerName: string): string {
+  const namePart = (workerName || "worker")
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z-]/g, "")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 14) || "worker";
+  const digits = Math.floor(1000 + Math.random() * 9000);
+  return `kp-${namePart}-${digits}`;
+}
+
+export async function setPassportSlugIfMissing(
+  workerId: string,
+  workerName: string,
+): Promise<string> {
   // Get current slug
   const { data: existing } = await supabase
     .from("workers")
@@ -219,7 +243,7 @@ export async function setPassportSlugIfMissing(workerId: string): Promise<string
     .single();
   if (existing?.passport_slug) return existing.passport_slug;
 
-  const slug = `kp-${workerId.slice(0, 8)}`;
+  const slug = buildPassportSlug(workerName);
   await supabase.from("workers").update({ passport_slug: slug }).eq("id", workerId);
   return slug;
 }

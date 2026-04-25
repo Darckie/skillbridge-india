@@ -17,6 +17,10 @@ const TRADES: { value: Trade; labelKey: string }[] = [
   { value: "welder", labelKey: "trade_welder" },
   { value: "carpenter", labelKey: "trade_carpenter" },
   { value: "ac_tech", labelKey: "trade_ac_tech" },
+  { value: "painter", labelKey: "trade_painter" },
+  { value: "mason", labelKey: "trade_mason" },
+  { value: "driver", labelKey: "trade_driver" },
+  { value: "security_guard", labelKey: "trade_security_guard" },
 ];
 
 function EmployerHomePage() {
