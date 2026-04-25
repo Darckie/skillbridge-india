@@ -221,11 +221,9 @@ function AdminReviewDetail() {
             </button>
           </div>
           {data.ai_score_json ? (
-            <pre className="mt-2 overflow-x-auto rounded-lg bg-muted p-3 text-xs">
-              {JSON.stringify(data.ai_score_json, null, 2)}
-            </pre>
+            <AiRubricCard rubric={data.ai_score_json} t={t} />
           ) : (
-            <p className="mt-2 text-xs text-muted-foreground">Not run yet</p>
+            <p className="mt-2 text-xs text-muted-foreground">{t("ai_not_run")}</p>
           )}
         </div>
 
