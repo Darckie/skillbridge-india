@@ -92,6 +92,26 @@ export function capabilitiesForTrade(trade: string, level: 1 | 2 | 3): string[] 
       ["Gas charging", "Fault finding", "Installation"],
       ["VRV systems", "Inverter ACs", "Refrigeration cycles"],
     ],
+    painter: [
+      ["Wall prep", "Single-coat painting"],
+      ["Two-coat finish", "Roller & brush", "Edge cutting"],
+      ["Texture finishes", "Spray painting", "Color mixing", "Damp-proofing"],
+    ],
+    mason: [
+      ["Brick laying", "Basic mortar mix"],
+      ["Plastering", "Plumb & level", "Wall building"],
+      ["RCC work", "Tile laying", "Arches & curves", "Concrete finishing"],
+    ],
+    driver: [
+      ["City driving", "Basic vehicle checks"],
+      ["Highway driving", "Parallel parking", "Route planning"],
+      ["Heavy vehicle", "Defensive driving", "Long-haul", "Vehicle maintenance"],
+    ],
+    security_guard: [
+      ["Gate duty", "Visitor register"],
+      ["CCTV monitoring", "Patrolling", "Emergency response"],
+      ["Crowd control", "Fire safety", "First aid", "Incident reporting"],
+    ],
   };
   return map[trade]?.[level - 1] ?? [];
 }

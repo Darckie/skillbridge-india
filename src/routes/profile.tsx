@@ -89,10 +89,70 @@ const TRADES: {
     iconStroke: "#185fa5",
     activeBorder: "#378add",
     activeBg: "#e6f1fb",
-    span: true,
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
         <path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    value: "painter",
+    labelKey: "trade_painter",
+    labelEnKey: "Painter",
+    iconBg: "#fdeaf2",
+    iconStroke: "#9d2660",
+    activeBorder: "#d34a8c",
+    activeBg: "#fdeaf2",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M19 11h2v4a2 2 0 01-2 2h-7v3h-2v-3H3a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v6z"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    value: "mason",
+    labelKey: "trade_mason",
+    labelEnKey: "Mason",
+    iconBg: "#f5ecdc",
+    iconStroke: "#7a4a17",
+    activeBorder: "#b8762d",
+    activeBg: "#f5ecdc",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M3 8h6v4H3zM9 8h6v4H9zM15 8h6v4h-6zM6 12h6v4H6zM12 12h6v4h-6zM3 16h6v4H3zM9 16h6v4H9zM15 16h6v4h-6z"
+          stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    value: "driver",
+    labelKey: "trade_driver",
+    labelEnKey: "Driver",
+    iconBg: "#e8f0fa",
+    iconStroke: "#1e4f8a",
+    activeBorder: "#3a72bf",
+    activeBg: "#e8f0fa",
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M5 17h14M6 17v-5l2-5h8l2 5v5M7 17v2M17 17v2M8 13h8"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    value: "security_guard",
+    labelKey: "trade_security_guard",
+    labelEnKey: "Security Guard",
+    iconBg: "#e7f3ec",
+    iconStroke: "#1f5c33",
+    activeBorder: "#3d8b5b",
+    activeBg: "#e7f3ec",
+    span: true,
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     ),
